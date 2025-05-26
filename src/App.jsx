@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useReducer } from "react";
 import "./App.css";
 import Announcement from "./components/Announcement";
 import Footer from "./components/Footer";
@@ -6,11 +6,15 @@ import Header from "./components/Header";
 import NewsLetter from "./components/Newsletter";
 import ProductBoard from "./product/ProductBoard";
 import { ProductContext } from "./contexts/productContext";
-import { products } from "./data/products";
+
+import { productsReducer, initialState } from "./reducers/productsReducer";
 function App() {
-    const [productList, setProductList] = useState(products);
+    const [productsState, productDispatch] = useReducer(
+        productsReducer,
+        initialState
+    );
     return (
-        <ProductContext value={{ productList, setProductList }}>
+        <ProductContext value={{ productsState, productDispatch }}>
             <Announcement />
             <Header />
             <ProductBoard />

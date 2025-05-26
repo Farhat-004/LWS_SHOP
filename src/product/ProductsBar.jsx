@@ -1,35 +1,13 @@
 import { useContext } from "react";
 import { ProductContext } from "../contexts/productContext";
-import { products } from "../data/products";
+
 export default function ProductsBar() {
-    const { productList, setProductList } = useContext(ProductContext);
+    const { productDispatch } = useContext(ProductContext);
     const handleSort = (text) => {
-        setProductList(products);
-        if (text == "All") {
-            setProductList(products);
-        } else if (text == "popular") {
-            let newProducts = [
-                ...productList.filter(
-                    (item) => item.ratings == 4 || item.ratings == 5
-                ),
-            ];
-            setProductList(newProducts);
-        } else if (text == "new") {
-            let newProducts = [
-                ...productList.filter((item) => item.status == "new"),
-            ];
-            setProductList(newProducts);
-        } else if (text == "lowToHigh") {
-            let lowProducts = [
-                ...productList.sort((l, h) => l.price - h.price),
-            ];
-            setProductList(lowProducts);
-        } else if (text == "HighToLow") {
-            let highProducts = [
-                ...productList.sort((l, h) => h.price - l.price),
-            ];
-            setProductList(highProducts);
-        }
+        productDispatch({
+            type: "SORT",
+            payload: text,
+        });
     };
     return (
         <div className="flex items-center justify-between mb-6">

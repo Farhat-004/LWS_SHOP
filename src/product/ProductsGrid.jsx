@@ -3,66 +3,65 @@ import { ProductContext } from "../contexts/productContext";
 import getImgUrl from "../utils/imgUrl";
 import { GoldenStars, BlackStars } from "../components/Stars";
 import { CartContext } from "../contexts/CartContext";
+// import { cartReducer, initialState } from "../reducers/cartReducer";
 
 export default function ProductsGrid() {
-    const { productList, setProductList } = useContext(ProductContext);
-    const { cartList, setCartList } = useContext(CartContext);
-    const HandleUpdateStock = (product, sign) => {
-        let nextProductList = productList.map((item) => {
-            if (item.title == product.title && sign == "+") {
-                return {
-                    ...item,
-                    stock: item.stock - 1,
-                    quantity: item.quantity + 1,
-                };
-            } else if (item.title == product.title && sign == "-") {
-                return {
-                    ...item,
-                    stock: item.stock + 1,
-                    quantity: item.quantity - 1,
-                };
-            } else {
-                return item;
-            }
-        });
-        setProductList(nextProductList);
-    };
-    const handleAddToCart = (product) => {
-        HandleUpdateStock(product, "+");
-        let nextCart = [...cartList, product];
+    const { productsState, productDispatch } = useContext(ProductContext);
+    const { state, dispatch } = useContext(CartContext);
 
-        setCartList(nextCart);
+    // const HandleUpdateStock = (product, sign) => {
+    //     let nextProductList = productsState.productList.map((item) => {
+    //         if (item.title == product.title && sign == "+") {
+    //             return {
+    //                 ...item,
+    //                 stock: item.stock - 1,
+    //                 quantity: item.quantity + 1,
+    //             };
+    //         } else if (item.title == product.title && sign == "-") {
+    //             return {
+    //                 ...item,
+    //                 stock: item.stock + 1,
+    //                 quantity: item.quantity - 1,
+    //             };
+    //         } else {
+    //             return item;
+    //         }
+    //     });
+    //     setProductList(nextProductList);
+    // };
+    const handleAddToCart = (product) => {
+        productDispatch({
+            type: "UPDATE_STOCK",
+            product,
+            sign: "+",
+        });
+        dispatch({
+            type: "ADD_TO_CART",
+            payload: product,
+        });
     };
 
     const handleRemoveFromCart = (product) => {
-        HandleUpdateStock(product, "-");
-        let nextProductList = [
-            ...productList.map((item) => {
-                if (item.id == product.id) {
-                    return {
-                        ...item,
-                        stock: item.stock + item.quantity - 1,
-                        quantity: 1,
-                    };
-                } else {
-                    return item;
-                }
-            }),
-        ];
-        let nextCart = cartList.filter((item) => item.id !== product.id);
-        setCartList(nextCart);
-        setProductList(nextProductList);
+        productDispatch({
+            type: "UPDATE_STOCK",
+            product,
+            sign: "-",
+        });
+        dispatch({
+            type: "REMOVE_FROM_CART",
+            payload: product,
+        });
     };
 
     return (
         <div className="product-grid">
-            {productList.length == 0 && (
+            {productsState.productList.length == 0 && (
                 <h1 className="text-red-500 text-center  text-3xl">
                     No products found
                 </h1>
             )}
-            {productList.length >= 1 &&
-                productList.map((product) => (
+            {productsState.productList.length >= 1 &&
+                productsState.productList.map((product) => (
                     <div
                         key={product.id}
                         className="bg-gray-100 rounded-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300"
@@ -92,7 +91,9 @@ export default function ProductsGrid() {
                             </div>
                             <p className="font-bold">${product.price}</p>
 
-                            {cartList.some((item) => item.id === product.id) ? (
+                            {state?.cartList.some(
+                                (item) => item.id === product.id
+                            ) ? (
                                 <button
                                     onClick={() =>
                                         handleRemoveFromCart(product)

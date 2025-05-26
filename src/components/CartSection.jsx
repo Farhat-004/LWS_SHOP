@@ -4,73 +4,44 @@ import getImgUrl from "../utils/imgUrl";
 import { ProductContext } from "../contexts/productContext";
 
 export default function CartSection() {
-    const { productList, setProductList } = useContext(ProductContext);
-    const { cartList, setCartList } = useContext(CartContext);
-    let totalPrice = cartList.reduce(
+    const { productDispatch } = useContext(ProductContext);
+    const { state, dispatch } = useContext(CartContext);
+    let totalPrice = state.cartList?.reduce(
         (total, item) => total + item.price * item.quantity,
         0
     );
     let discount = totalPrice * 0.2;
-    let total = cartList.length > 0 ? totalPrice - discount + 15 : 0;
+    let total = state.cartList.length > 0 ? totalPrice - discount + 15 : 0;
     const handleRemoveFromCart = (product) => {
-        handleUpdateStock(product, "-");
-        let nextProductList = productList.map((prod) => {
-            if (prod.title == product.title) {
-                return {
-                    ...prod,
-                    stock: prod.stock + prod.quantity - 1,
-                    quantity: 1,
-                };
-            } else {
-                return prod;
-            }
+        productDispatch({
+            type: "UPDATE_STOCK",
+            product,
+            sign: "-",
         });
-        let nextCart = cartList.filter((item) => item.id !== product.id);
-        setCartList(nextCart);
-        setProductList(nextProductList);
+        dispatch({
+            type: "REMOVE_FROM_CART",
+            payload: product,
+        });
     };
     const handleUpdateStock = (product, sign) => {
-        let nextProductList = productList.map((item) => {
-            if (item.title == product.title && sign == "+") {
-                return {
-                    ...item,
-                    stock: item.stock - 1,
-                    quantity: item.quantity + 1,
-                };
-            } else if (item.title == product.title && sign == "-") {
-                return {
-                    ...item,
-                    stock: item.stock + 1,
-                    quantity: item.quantity - 1,
-                };
-            } else {
-                return item;
-            }
+        productDispatch({
+            type: "UPDATE_STOCK",
+            product,
+            sign,
         });
-        let nextCartList = cartList.map((item) => {
-            if (item.title == product.title && sign == "+") {
-                return {
-                    ...item,
-                    quantity: item.quantity + 1,
-                };
-            } else if (item.title == product.title && sign == "-") {
-                return {
-                    ...item,
-                    quantity: item.quantity - 1,
-                };
-            } else {
-                return item;
-            }
+
+        dispatch({
+            type: "UPDATE_CART_STOCK",
+            product,
+            sign,
         });
-        setProductList(nextProductList);
-        setCartList(nextCartList);
     };
     return (
         <div className="lg:col-span-1">
             <div className="bg-white rounded-lg p-6 border border-gray-200">
                 <h2 className="text-2xl font-bold mb-6">YOUR CART</h2>
 
-                {cartList.map((item) => (
+                {state.cartList.map((item) => (
                     <div
                         key={item.title}
                         className="flex items-start space-x-4 pb-4 border-b border-gray-200 mb-4"
