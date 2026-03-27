@@ -4,15 +4,16 @@ import Announcement from "./components/Announcement";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import NewsLetter from "./components/Newsletter";
-import ProductBoard from "./product/ProductBoard";
 import { ProductContext } from "./contexts/productContext";
+import ProductBoard from "./product/ProductBoard";
+import { initialState, productsReducer } from "./reducers/productsReducer";
 
-import { productsReducer, initialState } from "./reducers/productsReducer";
-function App() {
+export default function App() {
     const [productsState, productDispatch] = useReducer(
         productsReducer,
-        initialState
+        initialState,
     );
+
     return (
         <ProductContext value={{ productsState, productDispatch }}>
             <Announcement />
@@ -23,5 +24,3 @@ function App() {
         </ProductContext>
     );
 }
-
-export default App;

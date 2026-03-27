@@ -1,4 +1,6 @@
-export const products = [
+import type { Product } from "../types";
+
+export const products: Product[] = [
     {
         image: "../assets/img/image 1.png",
         title: "Orelife T-shirt",
