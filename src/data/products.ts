@@ -1,8 +1,16 @@
 import type { Product } from "../types";
+import image1 from "../assets/img/image1.png";
+import image7_1 from "../assets/img/image7-1.png";
+import image8_1 from "../assets/img/image8-1.png";
+import image8_2 from "../assets/img/image8-2.png";
+import image8 from "../assets/img/image8.png";
+import image9_1 from "../assets/img/image9-1.png";
+import image9_2 from "../assets/img/image9-2.png";
+import image9 from "../assets/img/image9.png";
 
 export const products: Product[] = [
     {
-        image: "../assets/img/image 1.png",
+        image: image1,
         title: "Orelife T-shirt",
         id: 1,
         quantity: 1,
@@ -14,7 +22,7 @@ export const products: Product[] = [
         status: "new",
     },
     {
-        image: "../assets/img/image 7-1.png",
+        image: image7_1,
         title: "Polo T-shirt",
         id: 2,
         quantity: 1,
@@ -26,7 +34,7 @@ export const products: Product[] = [
         status: "popular",
     },
     {
-        image: "../assets/img/image 8-1.png",
+        image: image8_1,
         title: "Jeans Pant",
         id: 3,
         quantity: 1,
@@ -38,7 +46,7 @@ export const products: Product[] = [
         status: "new",
     },
     {
-        image: "../assets/img/image 8-2.png",
+        image: image8_2,
         title: "Courage T-shirt",
         id: 4,
         quantity: 1,
@@ -50,7 +58,7 @@ export const products: Product[] = [
         status: "new",
     },
     {
-        image: "../assets/img/image 8.png",
+        image: image8,
         title: "Just T-shirt",
         id: 5,
         quantity: 1,
@@ -62,7 +70,7 @@ export const products: Product[] = [
         status: "popular",
     },
     {
-        image: "../assets/img/image 9-1.png",
+        image: image9_1,
         title: "Check Style Shirt",
         id: 6,
         quantity: 1,
@@ -74,7 +82,7 @@ export const products: Product[] = [
         status: "popular",
     },
     {
-        image: "../assets/img/image 9-2.png",
+        image: image9_2,
         title: "Jeans Short Pant",
         id: 7,
         quantity: 1,
@@ -86,7 +94,7 @@ export const products: Product[] = [
         status: "new",
     },
     {
-        image: "../assets/img/image 9.png",
+        image: image9,
         title: "Polo T-shirt",
         id: 8,
         quantity: 1,

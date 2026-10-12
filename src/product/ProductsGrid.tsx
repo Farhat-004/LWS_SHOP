@@ -8,7 +8,7 @@ import getImgUrl from "../utils/imgUrl";
 export default function ProductsGrid() {
     const productContext = useContext(ProductContext);
     const cartContext = useContext(CartContext);
-
+    
     if (!productContext || !cartContext) {
         throw new Error("ProductsGrid must be used within the shop providers.");
     }
